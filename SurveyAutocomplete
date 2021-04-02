@@ -32,10 +32,9 @@ for i in range(5):
 	driver.get("https://www.washingtonjourney.com/submit-an-idea/") 
 
 	#inputting idea
-	submission = driver.find_element_by_xpath("//textarea[@id='field96829613']")
 	submissionList = ["Foreskins", "RedDildos", "Fleshlights"] #list of submission ideas
 	submissionEnter = submissionList[randint(0,len(submissionList)-1)]
-	submission.send_keys(submissionEnter)
+	driver.find_element_by_xpath("//textarea[@id='field96829613']").send_keys(submissionEnter)
 
 	#inputting first name
 	driver.find_element_by_xpath("//input[@id='field96829605']").click()
