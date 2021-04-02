@@ -1,0 +1,84 @@
+from selenium import webdriver
+from datetime import datetime
+from random import randint
+from pynput.keyboard import Key, Controller
+import time
+import pyperclip
+
+
+def press2Keys(key1, key2):
+	vKeyboard.press(key1)
+	vKeyboard.press(key2)
+	vKeyboard.release(key1)
+	vKeyboard.release(key2)
+
+
+vKeyboard = Controller()
+
+print("~~start~~")
+for i in range(5):
+	#opening survey
+	PATH = "C:\Program Files (x86)\chromedriver.exe"
+	driver = webdriver.Chrome(PATH)
+	driver.get("https://www.washingtonjourney.com/submit-an-idea/") 
+
+
+	#inputting idea
+	submission = driver.find_element_by_xpath("//textarea[@id='field96829613']")
+	submissionList = ["Foreskins", "RedDildos", "Fleshlights"] #list of submission ideas
+	submissionEnter = submissionList[randint(0,len(submissionList)-1)]
+	submission.send_keys(submissionEnter)
+
+	#inputting first name
+	firstName = driver.find_element_by_xpath("//input[@id='field96829605']")
+	firstName.click()
+	firstNameList = ["Noah","Liam","Jacob","William","Mason","Ethan","Michael","Alexander","James","Elijah","Benjamin","Daniel","Aiden","Logan","Jayden","Matthew","Lucas","David","Jackson","Joseph","Anthony","Samuel","Joshua","Gabriel","Andrew","John","Christopher","Oliver","Dylan","Carter","Isaac","Luke","Henry","Owen","Ryan","Nathan","Wyatt","Sebastian","Caleb","Jack","Christian","Jonathan","Julian","Landon","Levi","Isiah","Hunter","Aaron","Charles","Thomas","Emma","Olivia","Sophia","Isabella","Ava","Mia","Abigail","Emily","Charlotte","Madison","Elizabeth","Amelia","Evelyn","Ella","Chloe","Harper","Avery","Sofia","Grace","Addison","Victoria","Lily","Natalie","Aubrey","Lillian","Zoey","Hannah","Layla","Brooklyn","Scarlett","Zoe","Camila","Samantha","Riley","Leah","Aria","Savannah","Audrey","Anna","Allison","Gabriella","Claire","Hailey","Penelope","Aaliyah","Sarah","Nevaeh","Kaylee","Stella","Mila"]
+	firstNameEnter = firstNameList[randint(0,len(firstNameList)-1)]
+	vKeyboard.type(firstNameEnter)
+
+	#inputting last name
+	lastName = driver.find_element_by_xpath("//input[@id='field96829606']")
+	lastName.click()
+	lastNameList = ["Smith","Johnson","Williams","Brown","Jones","Garcia","Miller","Davis","Rodriguez","Martinez","Hernandez","Lopez","Gonzales","Wilson","Anderson","Thomas","Taylor","Moore","Jackson","Martin","Lee","Perez","Thompson","White","Harris","Sanchez","Clark","Ramirez","Lewis","Robison","Walker","Young","Allen","King","Wright","Scott","Torres","Nguyen","Hill","Flores","Green","Adams","Nelson","Baker","Hall","Rivera","Campbell","Mitchell","Carter","Roberts"]
+	lastNameEnter = lastNameList[randint(0,len(lastNameList)-1)]
+	vKeyboard.type(lastNameEnter)
+
+
+	#opening temporary email address page
+	driver2 = webdriver.Chrome(PATH)
+	driver2.get("https://10minutemail.net/") 
+
+	#copying temporary email address
+	emailCopy = driver2.find_element_by_xpath("//button[@id='copy-button']")
+	emailCopy.click()
+
+	press2Keys(Key.alt, Key.tab)
+
+
+	#inputting email address
+	emailAddress = driver.find_element_by_xpath("//input[@id='field96829607']")
+	emailAddress.click()
+	press2Keys(Key.ctrl, 'v')
+
+	#inputting zip code and getting corresping state/territory (not used)
+	zipCode = driver.find_element_by_xpath("//input[@id='field96829611']")
+	zipCode.click()
+	zipCodeList = ["36104","99801","85001","72201","95814","80202","06103","19901","32301","30303","96813","83702","62701","46225","50309","66603","40601","70802","04330","21401","02201","48933","55102","39205","65101","59623","68502","89701","03301","08608","87501","12207","27601","58501","43215","73102","97301","17101","02903","29217","57501","37219","78701","84111","05602","23219","98507","25301","53703","82001","96799","20001","96941","96910","96960","96950","96939","00901","00802"]
+	statesList = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming","American Samoa","District of Columbia","Federated States of Micronesia","Guam","Marshall Islands","Northern Mariana Islands","Palau","Puerto Rico","Virgin Islands"]
+	locationNum = randint(0,len(zipCodeList)-1)
+	zipCodeEnter = zipCodeList[locationNum]
+	vKeyboard.type(zipCodeEnter)
+
+	#submitting entries
+	submit = driver.find_element_by_xpath("//input[@id='fsSubmitButton4004162']")
+	submit.click()
+
+
+	#closing windows
+	while(driver.current_url != "https://www.washingtonjourney.com/thank-you/"):
+		time.sleep(0.5)
+	#completion documentation
+	print(submissionEnter + ": " + firstNameEnter + " " + lastNameEnter + ", " + statesList[locationNum] + " " + zipCodeEnter + ", " + pyperclip.paste() + ", " + str(datetime.now())[11:19])
+	driver.close()
+	driver2.close()
+print("~~end~~")
