@@ -18,9 +18,10 @@ lastNameList = ["Smith","Johnson","Williams","Brown","Jones","Garcia","Miller","
 zipCodeList = ["36104","99801","85001","72201","95814","80202","06103","19901","32301","30303","96813","83702","62701","46225","50309","66603","40601","70802","04330","21401","02201","48933","55102","39205","65101","59623","68502","89701","03301","08608","87501","12207","27601","58501","43215","73102","97301","17101","02903","29217","57501","37219","78701","84111","05602","23219","98507","25301","53703","82001","96799","20001","96941","96910","96960","96950","96939","00901","00802"]
 statesList = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming","American Samoa","District of Columbia","Federated States of Micronesia","Guam","Marshall Islands","Northern Mariana Islands","Palau","Puerto Rico","Virgin Islands"]
 
-print("~~start~~")
+print("~~start~~  " + str(datetime.now())[11:19])
 for i in range(3):
 	#opening temporary email address page
+	startTime = str(datetime.now())[11:19]
 	driver2 = webdriver.Chrome(PATH)
 	driver2.get("https://10minutemail.com/") 
 
@@ -63,7 +64,7 @@ for i in range(3):
 	#closing windows
 	while(driver.current_url != "https://www.washingtonjourney.com/thank-you/"):
 		time.sleep(0.5)
-	print(submissionEnter + ": " + firstNameEnter + " " + lastNameEnter + ", " + statesList[locationNum] + " " + zipCodeEnter + ", " + pyperclip.paste() + ", " + str(datetime.now())[11:19]) #completion documentation
+	print(str(i+1) + ": " + submissionEnter + "- " + firstNameEnter + " " + lastNameEnter + ", " + statesList[locationNum] + " " + zipCodeEnter + ", " + pyperclip.paste() + ", " + startTime + " - " + str(datetime.now())[11:19]) #completion documentation
 	driver.close()
 	driver2.close()
-print("~~end~~")
+print("~~end~~  " + str(datetime.now())[11:19])
